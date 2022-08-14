@@ -1,0 +1,96 @@
+sizeof(int) returns 4 (4*8=32)
+sizeof arrA[10]={0,1,2,3,4,0,0,0,0,0} returns 40.
+strlen  char i[50] returns 0.
+strlen  char i[50] ="Hello World\0" returns 11. 
+                  ('\0' marks the end of string in char array)
+------------------------------------------------------------------------------------------------------------
+!ARRAY/POINTER ARGUMENT TO A FUNCTION
+void function(char x[]){   
+}      // passing array to function passes the pointer to the
+       // first element of array and is equal to: function(char *x){}
+
+
+!The ways we can modify original variables in our secondary function:
+1) Passing a pointer as a parameter to the function argument.
+2)Passing a global variable as a parameter to the function argument.
+
+There is no passing by reference in C. Only passing by value or 
+passing a pointer to address of a variable that is defined
+as an local variable in main().
+---------------------------------------------------------------------------------------------------------------
+!Local/Global variables -defines the scope of a variable.
+
+!Automatic variables    -are local variables whos lifetime ends when execution leaves their scope
+!Static variables       -are local or global variables which have a lifetime that lasts untill the end of program
+                        1.  If they are local-the value persist when execution
+                            leaves their scope.
+                        2.  If they are global-they can only be accessed by
+                            functions in the same C program file as the variable.
+---------------------------------------------------------------------------------------------------------------
+!You cannot compare arrays 
+like this if(v==c) (v and c beeing arrays), because it will compare the addresses of those arrays.
+You need to put each element in loops and compare it for this.
+!For strings you can
+use the function strcmp() to compare and strlen() for 
+string lenght instead of loops. Othervise you have to:
+
+char compareArray(int a[],int b[])	{
+	int i;
+        for(i=0;i<sizeof(a);i++){
+	    if(a[i]!=b[i])return printf("Not the same");
+	}
+	return printf("The same");
+}
+--------------------------------------------------------------------------------------------------------------
+If you use one function over and over for a certain output
+its best to store its return value in a variable. 
+Program is faster that way.
+
+String manipulation: strlen(), strcpy(), strcmp(), strcat().
+Character manupulation: isalpha(), isdigit(), isupper(), islower(), isspace(), tolower(), toupper().
+Array manipulation: memcpy(), memset(), sizeof(arrA)
+---------------------------------------------------------------------------------------------------------------
+!DYNAMIV MEMORY ALLOCATION:
+malloc()-reserves a block of memory and returns a pointer of void which can be casted into pointers of any form.
+ptr=(castType*) malloc(size);
+ptr holds the address of the first byte in the allocated memory.
+The expression results in a NULL pointer if the memory cannot be allocated.
+
+!USE:
++fclose(one) one=fopen("file", "rw") -file managment
+
++fwrite(carrA, 256, 1, one), fread(carrA, 256, 1, one) -file managment - more than just strings.
+
++fputs(carrA, one), fgets(carrA, 256, one) -file managment + stdio - strings.
+
++scanf(), printf() - stdin/stdout - scan/print 
+
++fscanf(one, "%d", i), fprintf(one, "%d", i) - file managment - scan/print 
+
++getc(), putc() - stdin/stdout - single character
+
++c=fgetc(one), one=fputc(c) -file managment -single character
+
++fseek - go to a certain position in file
+
+!RATHER THAN:
+puts(), gets() - code injection problem.
+----------------------------------------------------------------------------------------------------------------
+!RUNNING PROGRAM WITH ARGUMENTS:
++first run the program to get exe file then:
+windows: .\program.exe argc1 argc2
+linux:   ./program argc1 argc2
+----------------------------------------------------------------------------------------------------------------
+!=EOF vs !FEOF
++while((fgetc(one))!=EOF)  use this for character manipulation in files
++while(!feof(fgetc(one)))  use this for byte manipulation in files
+
+!ERROR handling 
+use this for open file + check:
++if((one=fopen(carrA, "rb"))==NULL) ...
+
+use this for read/write file:
++if(ferror(one)) clearerr(one)  ...
+
+use this to indicate what error it is:
++if (one==NULL) perror ("Napaka pri odpiranju datoteke.");
